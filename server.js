@@ -34,6 +34,6 @@ app.get('/characters',(req,res)=>{
 })
 
 
-app.listen(3001, function() {
-    console.log('listening on 3001')
-  });
+app.listen(process.env.PORT || 3000, ()=> {
+  console.log(`app is running on port 3000 ${process.env.PORT}`);
+})
