@@ -31,18 +31,20 @@ app.get('/characters',(req,res)=>{
     .catch(error => console.error(error))
   })
   .catch(error => console.error(error))
-})
+});
 app.post('/login',(req,res)=>{
+  console.log(req.body)
   MongoClient.connect(url, { useUnifiedTopology: true })
 .then(client => {
   console.log('Connected to Database')
   const db =client.db('dash')
-  res.send(db.auth(req.body.userName,req.body.password))
+  console.log(db.auth(req.body.userName,req.body.password))
+  res.send()
 })
 .catch(error => console.error(error))
 })
 
 
-app.listen(process.env.PORT || 3000, ()=> {
-  console.log(`app is running on port 3000 ${process.env.PORT}`);
+app.listen(process.env.PORT || 3001, ()=> {
+  console.log(`app is running on port 3001 ${process.env.PORT}`);
 })
