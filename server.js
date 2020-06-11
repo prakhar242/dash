@@ -32,6 +32,15 @@ app.get('/characters',(req,res)=>{
   })
   .catch(error => console.error(error))
 })
+app.post('/login',(req,res)=>{
+  MongoClient.connect(url, { useUnifiedTopology: true })
+.then(client => {
+  console.log('Connected to Database')
+  const db =client.db('dash')
+  res.send(db.auth(req.body.userName,req.body.password))
+})
+.catch(error => console.error(error))
+})
 
 
 app.listen(process.env.PORT || 3000, ()=> {
