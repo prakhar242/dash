@@ -6,6 +6,7 @@ const app = express()
 const url = "mongodb+srv://dbUser:Prakhi24@prakhi-jpsfe.mongodb.net/dash?retryWrites=true&w=majority";
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cors());
 app.get('/characters',(req,res)=>{
     MongoClient.connect(url, { useUnifiedTopology: true })
@@ -32,19 +33,25 @@ app.get('/characters',(req,res)=>{
   })
   .catch(error => console.error(error))
 });
-app.post('/login',(req,res)=>{
-  console.log(req.body)
+app.post('/characters/test',(req,res)=>{
   MongoClient.connect(url, { useUnifiedTopology: true })
 .then(client => {
   console.log('Connected to Database')
+  let result = {
+    "details":[]
+  }
   const db =client.db('dash')
-  console.log(db.auth(req.body.userName,req.body.password))
-  res.send()
-})
-.catch(error => console.error(error))
-})
+  db.collection('test').find({"name":req.body.name}).toArray()
+  .then(results => {
+         result.details=results;
+         res.send(result)
+    })
+    .catch(error => console.error(error))
+  })
+  .catch(error => console.error(error))
+});
 
 
-app.listen(process.env.PORT || 3001, ()=> {
-  console.log(`app is running on port 3001 ${process.env.PORT}`);
+app.listen(process.env.PORT || 3000, ()=> {
+  console.log(`app is running on port 3000 ${process.env.PORT}`);
 })
